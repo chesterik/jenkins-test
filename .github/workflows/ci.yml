@@ -30,6 +30,7 @@ jobs:
         if: failure() 
         env:
           GH_TOKEN: ${{ github.token }}
+          TITLE: CI lint failed on ${{ github.ref_name }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq 'length')
