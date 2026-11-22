@@ -10,6 +10,9 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
@@ -22,7 +25,21 @@ jobs:
           npm install
       - name: Run lint
         run: |
-          npm run lint 
+          npm run lint
+      - name: Create issue on failure
+        if: failure() 
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq 'length')
+
+          if [ "$EXISTING" -eq 0 ]; then
+            gh issue create --title "$TITLE" --body "Lint впав. Деталі: $RUN_URL"
+          else
+            echo "Issue вже існує, нове не створюю"
+          fi
+
   test:
     needs: lint
     runs-on: ubuntu-latest
