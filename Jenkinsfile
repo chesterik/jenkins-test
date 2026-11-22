@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t my-flask-app .'
+                sh 'docker rm -f flask-test && docker build -t my-flask-app .'
             }
         }
         stage('Test') {
