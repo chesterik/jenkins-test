@@ -1,9 +1,9 @@
 name: Continuous Integration
 
-on:
-  push:
+on: # where github can be looked for events to trigger the workflow
+  push: 
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch: # make sure so we can mannually trigger the workflow from the Actions tab in GitHub
 
 
 jobs:
