@@ -1,11 +1,32 @@
-name: First Workflows
-on: workflow_dispatch
-
+name: Deploy Project
+on: push
 jobs:
-  first_job: # job name
+  test:                              # JOB 1: перевірка коду
     runs-on: ubuntu-latest
     steps:
-      - name: First step
-        run: echo "This is the first step of the first job in the first workflow."
-      - name: Print goodbye message
-        run: echo "Goodbye from the first workflow!"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+
+  deploy:                            # JOB 2: збірка і деплой
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Deploy
+        run: echo "Deploying ..."
