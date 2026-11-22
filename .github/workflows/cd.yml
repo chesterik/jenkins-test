@@ -2,7 +2,7 @@ name: Issue Details
 
 on:
   issues:
-    types: [opened]
+    types: [created, edited, closed, reopened]
 
 jobs:
   issue-details:
