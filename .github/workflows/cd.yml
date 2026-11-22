@@ -1,0 +1,28 @@
+name: Issue Details
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  issue-details:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get issue details
+        env:
+          TITLE: ${{ github.event.issue.title }}
+          BODY: ${{ github.event.issue.body }}
+          AUTHOR: ${{ github.event.issue.user.login }}
+          STATE: ${{ github.event.issue.state }}
+          NUMBER: ${{ github.event.issue.number }}
+          URL: ${{ github.event.issue.html_url }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Issue title: $TITLE"
+          echo "Issue state: $STATE"
+          echo "Issue author: $AUTHOR"
+          echo "Issue repository: $REPO"
+          echo "Issue body: $BODY"
+          echo "Issue number: $NUMBER"
+          echo "Issue URL: $URL"
+  
